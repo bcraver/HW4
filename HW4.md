@@ -1,12 +1,14 @@
 # Homework 4  
 
+Files are saved in the following path:
+/pub/jje/ee282/bcraver/HW4
+
 ### Summarize partitions of a genome assembly  
 
 First, download necessary modules. 
 
 1. Prepare environment  
 `$ module load jje/jjeutils jje/kent`
-
 
 ##### Calculate the following for all sequences ≤ 100kb and all sequences > 100kb:
 * Total number of nucleotides
@@ -78,34 +80,14 @@ L count: mean 0.0 sd 0.0
 6. Add Length Header   
 `echo $'Length' | cat - sortlength.txt > sortlengthhead.txt` 
 
-For shorter sequences,
-  
-  		library(ggplot2)
-
-		lengthdistribution <-	read.table("shorter_sort.txt", header = TRUE)
-		LD = ggplot(data = lengthdistribution)
-		LD + geom_histogram(mapping = aes(x=Length), bins 	= 1000) + scale_x_log10() + ggtitle("Sequence 	Length Distibution") + xlab("Sequence Length (bp)")
-
 ###Generating Sequence Length Distribution Plot  
-1. Load RStudio  
-`module load rstudio `
+  	library(ggplot2)
 
-2. Open rstudio  
- `rstudio`
- 
-3. Load ggplot  
-`library(ggplot2) `
+	lengthdistribution <-	read.table("shorter_sort.txt", header = TRUE)
+	LD = ggplot(data = lengthdistribution)
+	LD + geom_histogram(mapping = aes(x=Length), bins 	= 1000) + scale_x_log10() + ggtitle("Sequence 	Length Distibution") + xlab("Sequence Length (bp)")
 
-4. Load data into rstudio  
-`lengthdistribution <- read.table("sortlengthhead.txt", header = TRUE)` 
-
-5. Load data into ggplot  
-`LD = ggplot(data = lengthdistribution)` 
-
-6. Make labeled histogram out of data, with a log scale and bin sizes of 1000  
-`LD + geom_histogram(mapping = aes(x=Length), bins = 1000) + scale_x_log10() + ggtitle("Sequence Length Distibution") + xlab("Sequence Length (bp)")`
-
-###Generating Sequence GC% Distribution File
+###Generating Sequence GC% Distribution File  
 1. View the GC content
 `bioawk -c fastx '{ print ">"$name; print gc($seq) }' assembly.txt > GC.txt`	
 
@@ -120,23 +102,11 @@ For shorter sequences,
 
 ###Generating Sequence GC% Distribution Plot
 
-1. Open rstudio  
-`rstudio`  
-
-2. Load ggplot  
-`library(ggplot2)`  
-
-3. Load GCsort data into Rstudio
-`GCDistribution = read.table("GCsort.txt")`   
-
-4. Load data into ggplot  
-`GCD = ggplot(data = GCDistribution)`  
-
-5. Make labeled histogram with bin sizes of 0.01% 
-`GCD + geom_histogram(mapping = aes(x=V1), binwidth = 0.01) + ggtitle("Sequence GC% Distribution") + xlab("Sequence GC Content (%)")`  
-
-6. Save plot
-`ggsave("SeqGCDis.png", width = 6, height = 6)`
+	library(ggplot2) 
+	GCDistribution = read.table("GCsort.txt")  
+	GCD = ggplot(data = GCDistribution)  
+	GCD + geom_histogram(mapping = aes(x=V1), binwidth = 0.01) + ggtitle("Sequence GC% Distribution") + xlab("Sequence GC Content (%)")
+	ggsave("SeqGCDis.png", width = 6, height = 6)	
 
 ###Generating CDF File
 
@@ -149,19 +119,7 @@ For shorter sequences,
 3. create CDF from file with headers Length and Assembly  
 `plotCDF2 CDFHead.txt GenomeCDF.png`  
 
-## Plots for longer sequences  
-  
-`bioawk -c fastx '{ print $name, length($seq) }' longer.kb.fasta > lengths.txt`  
 
-	big <-read.table("lengths.txt", header=TRUE)
-
-	big$cut <-cut(x=big$Length, breaks=50)
-		
-	bigplot <-ggplot(data=big)
-
-	bigplot + geom_bar(mapping = aes(x=cut)) + labs(title="Sequence Length Distribution", x="Length", y="Count (Number of Contigs)") + theme_bw()+ theme(axis.text.x = element_text(angle = 60, hjust = 1))
-
---------
 # Genome assembly  
 ##### Assemble a genome from MinION reads1.   
 
@@ -187,11 +145,11 @@ For shorter sequences,
 
 1. Calculate N50  
 
-`bioawk -c fastx ' { li=length($seq); l=li+l; print li; } END { print l; } ' unitigs.fa \
-| sort -rn \
-| gawk 'NR == 1 { 
-	l=$1; } NR > 1 { li=$1; lc=li+lc; if(lc/l >= 0.5) { print li; exit; } } '\
-	| less -S`
+	`bioawk -c fastx ' { li=length($seq); l=li+l; 	print li; } END { print l; } ' unitigs.fa \
+	| sort -rn \
+	| gawk 'NR == 1 { 
+		l=$1; } NR > 1 { li=$1; lc=li+lc; if(lc/l >= 	0.5) { print li; exit; } } '\
+		| less -S`
 	
 ####N50=4,494,246 (Reference N50=21,485,538)
 
@@ -287,3 +245,4 @@ INFO	0 Complete and duplicated BUSCOs (D)
 INFO	32 Fragmented BUSCOs (F)  
 INFO	2754 Missing BUSCOs (M)  
 INFO	2799 Total BUSCO groups searched  
+
