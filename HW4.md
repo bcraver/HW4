@@ -119,6 +119,9 @@ L count: mean 0.0 sd 0.0
 3. create CDF from file with headers Length and Assembly  
 `plotCDF2 CDFHead.txt GenomeCDF.png`  
 
+### Comments on "Summarize partitions of a genome assembly"
+
+Excellent. One tiny suggestion: Next time, embed your figures directly into the markdown. It makes it a lot easier to see everything. Otherwise, perfect.
 
 # Genome assembly  
 ##### Assemble a genome from MinION reads1.   
