@@ -61,7 +61,7 @@ L count: mean 0.0 sd 0.0
 *  Sequence GC% distribution
 * Cumulative genome size sorted from largest to smallest sequences  
 
-###Generating Sequence Length Distribution File 
+### Generating Sequence Length Distribution File 
 
 1. Rename fasta file "assembly"  
 `mv dmel-all-chromosome-r6.24.fasta assembly.txt`
@@ -80,14 +80,14 @@ L count: mean 0.0 sd 0.0
 6. Add Length Header   
 `echo $'Length' | cat - sortlength.txt > sortlengthhead.txt` 
 
-###Generating Sequence Length Distribution Plot  
+### Generating Sequence Length Distribution Plot  
   	library(ggplot2)
 
 	lengthdistribution <-	read.table("shorter_sort.txt", header = TRUE)
 	LD = ggplot(data = lengthdistribution)
 	LD + geom_histogram(mapping = aes(x=Length), bins 	= 1000) + scale_x_log10() + ggtitle("Sequence 	Length Distibution") + xlab("Sequence Length (bp)")
 
-###Generating Sequence GC% Distribution File  
+### Generating Sequence GC% Distribution File  
 1. View the GC content
 `bioawk -c fastx '{ print ">"$name; print gc($seq) }' assembly.txt > GC.txt`	
 
@@ -100,7 +100,7 @@ L count: mean 0.0 sd 0.0
 4. shows answer	 
 `less GCsort.txt`	
 
-###Generating Sequence GC% Distribution Plot
+### Generating Sequence GC% Distribution Plot
 
 	library(ggplot2) 
 	GCDistribution = read.table("GCsort.txt")  
@@ -108,7 +108,7 @@ L count: mean 0.0 sd 0.0
 	GCD + geom_histogram(mapping = aes(x=V1), binwidth = 0.01) + ggtitle("Sequence GC% Distribution") + xlab("Sequence GC Content (%)")
 	ggsave("SeqGCDis.png", width = 6, height = 6)	
 
-###Generating CDF File
+### Generating CDF File
 
 1. Adds Dmel Assembly ID  
 `bioawk '{print $1 "\t Dmel"}' < sortlength.txt > CDF.txt` 
@@ -122,6 +122,8 @@ L count: mean 0.0 sd 0.0
 ### Comments on "Summarize partitions of a genome assembly"
 
 Excellent. One tiny suggestion: Next time, embed your figures directly into the markdown. It makes it a lot easier to see everything. Otherwise, perfect.
+
+Also, please differentiate your homework assignment from your lab partner's. You're welcome to work together, but please try to compose independent answers.
 
 # Genome assembly  
 ##### Assemble a genome from MinION reads1.   
